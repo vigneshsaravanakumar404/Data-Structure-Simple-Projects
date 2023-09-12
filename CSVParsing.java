@@ -15,5 +15,6 @@ public class CSVParsing {
                 System.out.println(values[0] + " is a bit odd");
                 System.out.println(values[1] + " is even tempered");
             }
+        }
     }
 }
