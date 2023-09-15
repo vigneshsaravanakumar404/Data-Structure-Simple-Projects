@@ -5,7 +5,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // Declarations
+        // Reading File Data
         ArrayList<Student> students = new ArrayList<Student>();
         String line = "";
 
@@ -27,31 +27,37 @@ public class Main {
         }
 
         // Testing
-        System.out.println("The random student is: " + randomStudent(students));
+        randomStudent(students);
         Quiz(students);
+        getNounandSentance(students);
+        searchByDataField(students);
+        alphabetize(students);
+        createGroups(students);
 
     }
 
-    // Return Random Student
-    static Student randomStudent(ArrayList<Student> students) {
+    static void randomStudent(ArrayList<Student> students) {
 
         Random rand = new Random();
-        return students.get(rand.nextInt(students.size() + 1));
+        System.out.println("The random student is: " + students.get(rand.nextInt(students.size() + 1)));
 
     }
 
-    // Quiz
+    static Student randomStudentStudent(ArrayList<Student> students) {
+        Random rand = new Random();
+        return students.get(rand.nextInt(students.size() + 1));
+    }
+
     static void Quiz(ArrayList<Student> students) {
 
         System.out.println("\n\n");
 
         Scanner scanner = new Scanner(System.in);
-        Student temp = randomStudent(students);
+        Student temp = randomStudentStudent(students);
 
         System.out.println("Hello let's take a quiz: ");
         System.out.print("Who's favorite noun is \"" + temp.getNoun() + "\": ");
         String answer = scanner.nextLine();
-        scanner.close();
 
         if (answer.equals(temp.getFirstName())) {
             System.out.println("\nTHAT IS CORRECT!");
@@ -72,6 +78,7 @@ public class Main {
                 System.out.println("\nTheir word is " + e.getNoun() + "\nTheir sentance is " + e.getOneThing());
             }
         }
+
     }
 
     public static void searchByDataField(ArrayList<Student> students) {
@@ -136,21 +143,8 @@ public class Main {
     }
 
     public static void alphabetize(ArrayList<Student> students) {
-        ArrayList<String> names = new ArrayList<String>();
-        for (int i = 0; i < students.size(); i++) {
-            names.add(students.get(i).toString());
-        }
-        Collections.sort(names);
-        ArrayList<Student> s = new ArrayList<Student>();
-        for (int i = 0; i < names.size(); i++) {
-            for (int j = 0; j < students.size(); j++) {
-                if (names.get(j).equals(students.get(j).toString())) {
-                    s.add(students.get(j));
-                    students.remove(j);
-                }
-            }
-        }
-        students = s;
+        Collections.sort(students);
+        System.out.println(students);
     }
 
     public static void createGroups(ArrayList<Student> students) {

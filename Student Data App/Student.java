@@ -1,4 +1,4 @@
-public class Student {
+public class Student implements Comparable<Student> {
 	private String firstName;
 	private String lastName;
 	private String noun;
@@ -30,4 +30,9 @@ public class Student {
 	public String toString() {
 		return firstName + " " + lastName;
 	}
+
+	public int compareTo(Student other) {
+		return this.toString().compareTo(other.toString());
+	}
+
 }
