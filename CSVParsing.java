@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class CSVParsing {
     public static void main(String[] args) {
@@ -15,6 +12,10 @@ public class CSVParsing {
                 System.out.println(values[0] + " is a bit odd");
                 System.out.println(values[1] + " is even tempered");
             }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
