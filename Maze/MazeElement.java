@@ -5,7 +5,7 @@ import javax.imageio.ImageIO;
 public class MazeElement {
 
 	// Instance variables
-	private Location loc;
+	protected Location loc;
 	private int size;
 	private BufferedImage img;
 	private char orientation; // 'N' for North, 'S' for South, 'E' for East, 'W' for West
