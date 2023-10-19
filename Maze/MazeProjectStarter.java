@@ -1,6 +1,8 @@
 
 // Planning Document: https://docs.google.com/document/d/1dufhUD82mlUIdbwCK6SsGjpbT6wpN2yvbTwExrpknxU/edit#heading=h.w4876d7fbz4z
 // Rubric: https://docs.google.com/document/d/1Mh1c2kgGWCqwbN1J-Ac40Enl5OJVPP6XJz0VJcx8FWc/edit
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -12,18 +14,20 @@ import java.awt.geom.AffineTransform;
 public class MazeProjectStarter extends JPanel implements KeyListener, ActionListener {
 
 	// Instance variables
-	private JFrame frame;
+	public JFrame frame;
 	private int size = 30, width = 1500, height = 1000, currentLevel = 0;
 	private char[][] maze;
 	private Timer t;
 	private Explorer explorer;
 	private Location startLocation;
-	private boolean is3DView = false;
+	private ArrayList<Key> keys = new ArrayList<>();
+	private ArrayList<Door> doors = new ArrayList<>();
 	private ArrayList<Monster> monsters = new ArrayList<>();
+	private boolean is3DView = false, showCongratulationsMessage = false;
 
+	//TODO: Change image to top down view of character
 	// Constructor
 	public MazeProjectStarter() {
-		// Maze variables
 		setBoard(currentLevel);
 		frame = new JFrame("A-Mazing Program");
 		frame.setSize(width, height);
@@ -32,10 +36,22 @@ public class MazeProjectStarter extends JPanel implements KeyListener, ActionLis
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		explorer = new Explorer(startLocation, size, "explorer.png");
-		t = new Timer(10, this);
+		explorer = new Explorer(startLocation, size, "explorer1.png");
+		t = new Timer(1, this);
 		t.start();
 		repaint();
+
+		Timer timer = new Timer(10, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (Monster monster : monsters) {
+					monster.moveBasedOnTimer(maze);
+					System.out.println("Monster at (" + monster.getX() + ", " + monster.getY() + ")");
+				}
+				repaint();
+			}
+		});
+		timer.setRepeats(true);
 	}
 
 	// Graphics
@@ -45,13 +61,28 @@ public class MazeProjectStarter extends JPanel implements KeyListener, ActionLis
 		if (is3DView) {
 			drawMaze3D(g);
 		} else {
-			drawMaze2D(g, monsters); // Use the class member monsters list
+			drawMaze2D(g);
 		}
+
+		if (showCongratulationsMessage) {
+			Graphics2D g2 = (Graphics2D) g;
+			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+			Font font = new Font("Arial", Font.BOLD, 100);
+			g2.setFont(font);
+			FontMetrics fm = g2.getFontMetrics();
+			int textWidth = fm.stringWidth("Congratulations!");
+			int textHeight = fm.getHeight();
+			int x = (getWidth() - textWidth) / 2;
+			int y = (getHeight() - textHeight) / 2 + fm.getAscent();
+			g2.setColor(Color.GRAY);
+			g2.drawString("Congratulations!", x + 3, y + 3);
+			g2.setColor(Color.PINK);
+			g2.drawString("Congratulations!", x, y);
+		}
+
 	}
 
-	/*
-	 * KeyListener methods
-	 */
+	// KeyListener methods
 	public void keyPressed(KeyEvent e) {
 
 		// Move the explorer
@@ -62,66 +93,64 @@ public class MazeProjectStarter extends JPanel implements KeyListener, ActionLis
 		// Toggle 3D view
 		if (key == KeyEvent.VK_SPACE) {
 			is3DView = !is3DView;
-			repaint();
 		}
 
 		// Check if explorer lands on the end point ('E')
 		if (maze[newLoc.getX()][newLoc.getY()] == 'E') {
-
-			// Move the explorer to the end point
 			explorer.setLoc(newLoc);
-			repaint();
 			currentLevel++;
+			showCongratulationsMessage = true;
+			repaint();
 
-			// Next level dialog
-			try {
-				int dialogResult = JOptionPane.showConfirmDialog(frame,
-						"Great Job! Do you want to go to the next level?", "Next Level", JOptionPane.YES_NO_OPTION);
-
-				if (dialogResult == JOptionPane.YES_OPTION) {
-					explorer.setLoc(new Location(0, 0));
-					repaint();
+			Timer timer = new Timer(2000, new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					showCongratulationsMessage = false;
 					setBoard(currentLevel);
-					explorer.resetMoveCount();
-					explorer.setLoc(startLocation);
-				} else {
-					JOptionPane.showMessageDialog(frame, "Congratulations, you've completed all available mazes!");
-					t.stop();
-					Thread.sleep(1000);
-					System.exit(0);
+					frame.setTitle("A-Mazing Program - Level " + (currentLevel + 1));
+					((Timer) evt.getSource()).stop();
+					repaint();
 				}
-			} catch (Exception ex) {
-				JOptionPane.showMessageDialog(frame, "Congratulations, you've completed all available mazes!");
-				t.stop();
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				System.exit(0);
-			}
+			});
+			timer.setRepeats(false);
+			timer.start();
 		}
 
-		repaint();
+		// Check if you landed on a key
+		else if (maze[newLoc.getX()][newLoc.getY()] >= '1' && maze[newLoc.getX()][newLoc.getY()] <= '4') {
+			for (int i = 0; i < keys.size(); i++) {
+				if (keys.get(i).getX() == newLoc.getX() && keys.get(i).getY() == newLoc.getY()) {
+					char doorToUnlock = keys.get(i).getDoorUnlocked();
+					maze[newLoc.getX()][newLoc.getY()] = ' ';
+					keys.remove(i);
+
+					for (int j = 0; j < doors.size(); j++) {
+						if (doors.get(j).getCode() == doorToUnlock) {
+							maze[doors.get(j).getX()][doors.get(j).getY()] = ' ';
+							doors.remove(j);
+							break;
+						}
+					}
+					break;
+				}
+			}
+		} else {
+			repaint();
+		}
+
 	}
 
 	public void keyReleased(KeyEvent e) {
 
 	}
 
+	// Exit
 	public void keyTyped(KeyEvent e) {
 		if (e.getKeyChar() == 27) {
 			System.exit(0);
 		}
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
-		System.out.println("Timer Triggered");
-		for (Monster monster : monsters) {
-			System.out.println("Monster's current position: " + monster.getX() + ", " + monster.getY());
-			monster.move(maze);
-		}
 		repaint();
 	}
 
@@ -144,25 +173,27 @@ public class MazeProjectStarter extends JPanel implements KeyListener, ActionLis
 			int cols = lines.get(0).length();
 			maze = new char[rows][cols];
 
-			// Clear any existing monsters when a new board is set
-			monsters.clear();
-
 			// Identify the points of interest
 			int startX = -1, startY = -1;
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < cols; c++) {
 					maze[r][c] = lines.get(r).charAt(c);
 
-					if (maze[r][c] == 'S') { // Find the starting point
+					if (maze[r][c] == 'S') {
 						startX = r;
 						startY = c;
-						startLocation = new Location(startX, startY); // Store it
+						startLocation = new Location(startX, startY);
+					} else if (maze[r][c] == '1' || maze[r][c] == '2' || maze[r][c] == '3' || maze[r][c] == '4') {
+						keys.add(new Key(r, c, Integer.parseInt(maze[r][c] + "")));
+					} else if (maze[r][c] == 'A' || maze[r][c] == 'B' || maze[r][c] == 'C' || maze[r][c] == 'D') {
+						doors.add(new Door(r, c, maze[r][c]));
+					} else if (maze[r][c] == 'H') {
+						monsters.add(new Monster(new Location(c, r), size, "monster.png", 0.5, 'X'));
+					} else if (maze[r][c] == 'V') {
+						monsters.add(new Monster(new Location(c, r), size, "monster.png", 0.5, 'Y'));
+
 					}
-					// Create monsters based on their initial direction and add to the list
-					else if (maze[r][c] == 'R' || maze[r][c] == 'L' || maze[r][c] == 'U' || maze[r][c] == 'D') {
-						Monster monster = new Monster(new Location(r, c), size, "monster.png", maze[r][c]);
-						monsters.add(monster);
-					}
+
 				}
 			}
 
@@ -170,25 +201,34 @@ public class MazeProjectStarter extends JPanel implements KeyListener, ActionLis
 
 			// Initialize the explorer at the starting point
 			if (startX != -1 && startY != -1) {
-				explorer = new Explorer(new Location(startX, startY), size, "explorer.png");
+				explorer = new Explorer(new Location(startX, startY), size, "explorer1.png");
 			} else {
 				throw new IllegalArgumentException("No starting point ('S') found in the maze file.");
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found: " + fileName);
+			System.exit(0);
 		} catch (IOException e) {
 			System.out.println("An error occurred while reading the file.");
+			System.exit(0);
 		}
 	}
 
 	// Draws the maze in 2D
-	public void drawMaze2D(Graphics g, ArrayList<Monster> monsters) {
+	public void drawMaze2D(Graphics g) {
 
 		// Draw the maze
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, frame.getWidth(), frame.getHeight());
+		BufferedImage keyImage = null;
+		try {
+			keyImage = ImageIO.read(new File("key.png"));
+		} catch (IOException e) {
+			System.out.println("Image ->[key.png] not loaded");
+		}
 
+		// Draw Maze Elements
 		for (int r = 0; r < maze.length; r++) {
 			for (int c = 0; c < maze[0].length; c++) {
 				if (maze[r][c] == '#') {
@@ -200,6 +240,16 @@ public class MazeProjectStarter extends JPanel implements KeyListener, ActionLis
 				} else if (maze[r][c] == 'E') { // End
 					g2.setColor(Color.decode("#FFFF66"));
 					g2.fillRect(c * size, r * size, size, size); // End
+				} else if (maze[r][c] == '1' || maze[r][c] == '2' || maze[r][c] == '3' || maze[r][c] == '4') {
+					if (keyImage != null) {
+						g2.drawImage(keyImage, c * size, r * size, size, size, null);
+					} else {
+						g2.setColor(Color.decode("#FFD700"));
+						g2.fillRect(c * size, r * size, size, size); // Key
+					}
+				} else if (maze[r][c] == 'A' || maze[r][c] == 'B' || maze[r][c] == 'C' || maze[r][c] == 'D') {
+					g2.setColor(Color.GRAY);
+					g2.fillRect(c * size, r * size, size, size); // Door
 				}
 				// Draw gridlines
 				g2.setColor(Color.gray);
@@ -227,7 +277,11 @@ public class MazeProjectStarter extends JPanel implements KeyListener, ActionLis
 					angle = Math.PI / 2 - Math.PI / 2;
 					break;
 				case 'W':
-					angle = -Math.PI / 2 - Math.PI / 2;
+					angle = Math.PI / 2 - Math.PI / 2;
+					AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+					tx.translate(-img.getWidth(null), 0);
+					AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+					img = op.filter(img, null);
 					break;
 			}
 			// Rotate the image
@@ -245,17 +299,17 @@ public class MazeProjectStarter extends JPanel implements KeyListener, ActionLis
 			g2.drawImage(img, adjustedX, adjustedY, size * 2, size * 2, null); // size * 2 to make it twice as large
 		}
 
-		// Draw the monsters
-		for (Monster monster : monsters) {
-			BufferedImage monsterImg = monster.getImg();
-			if (monsterImg != null) {
-				Location monsterLoc = monster.getLoc();
-				int monsterX = monsterLoc.getY() * size;
-				int monsterY = monsterLoc.getX() * size;
+		// Draw Monsters for debugging
+		for (int i = 0; i < monsters.size(); i++) {
+			BufferedImage img = monsters.get(i).getImg();
+			int drawX = (int) Math.round(monsters.get(i).getX());
+			int drawY = (int) Math.round(monsters.get(i).getY());
+			System.out.println("Drawing monster at grid (" + drawX + ", " + drawY + ")");
+			g2.drawImage(img, drawX * size, drawY * size, size, size, null);
 
-				g2.drawImage(monsterImg, monsterX, monsterY, size, size, null);
-
-			}
+			// Draw a red border for debugging
+			g2.setColor(Color.RED);
+			g2.drawRect(drawX * size, drawY * size, size, size);
 		}
 
 		// Display move count at bottom of page

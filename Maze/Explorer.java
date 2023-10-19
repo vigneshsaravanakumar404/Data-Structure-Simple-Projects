@@ -1,15 +1,13 @@
 public class Explorer extends MazeElement {
 
-    // Instance variables
     private int moveCount = 0;
 
-    // Constructor
     public Explorer(Location loc, int size, String imgString) {
         super(loc, size, imgString);
         setOrientation('E');
     }
 
-    // Getters and setters
+    /* Getters and setters */
     public char getDirection() {
         return getOrientation();
     }

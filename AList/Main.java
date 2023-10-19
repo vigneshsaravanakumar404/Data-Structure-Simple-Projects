@@ -37,5 +37,29 @@ public class Main {
         doubleList.add(10.0);
         doubleList.add(5.5);
         System.out.println(doubleList);
+
+        // Create a new AList of Integer type
+        AList<Integer> list = new AList<>();
+
+        // Add some elements to the list
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+        list.add(5);
+
+        // Test indexOf() method
+        System.out.println("Index of 3: " + list.indexOf(3)); // Should print 2
+        System.out.println("Index of 6: " + list.indexOf(6)); // Should print -1
+
+        // Test remove(Object o) method
+        list.remove((Object) 3);
+        System.out.println("List after removal: " + list.toString()); // Should print [1, 2, 4, 5]
+        list.remove((Object) 6);
+        System.out.println("List after removal: " + list.toString()); // Should print [1, 2, 4, 5]
+
+        // Print the list to verify
+        System.out.println("List after removal: " + list.toString()); // Should print [1, 2, 4, 5]
+
     }
 }

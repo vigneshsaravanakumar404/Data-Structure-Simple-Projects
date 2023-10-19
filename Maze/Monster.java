@@ -1,109 +1,84 @@
 import java.awt.image.BufferedImage;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class Monster extends MazeElement {
 
-    // Instance variables
-    private char initialDirection;
-    private long lastMoveTime;
-    private int pixelsPerSecond;
+    private double x;
+    private double y;
+    private double velocity;
+    private char axis;
+    private boolean goingPositive;
 
-    // Constructor
-    public Monster(Location loc, int size, String imgString, char initialDirection) {
+    public Monster(Location loc, int size, String imgString, double velocity, char axis) {
         super(loc, size, imgString);
-        this.initialDirection = initialDirection;
-        this.lastMoveTime = System.currentTimeMillis();
+        this.x = loc.getX();
+        this.y = loc.getY();
+        this.velocity = velocity;
+        this.axis = axis;
+        this.goingPositive = true;
     }
 
-    // Getters
-    public Location getLoc() {
-        return super.getLoc();
-    }
-
-    public int getX() {
-        return super.getLoc().getX();
-    }
-
-    public int getY() {
-        return super.getLoc().getY();
-    }
-
-    // Moves the monster in the direction it is facing
+    // Override or create methods to move the monster
     public void move(char[][] maze) {
-        long currentTime = System.currentTimeMillis();
-        long elapsedTime = currentTime - lastMoveTime;
+        if (axis == 'X') {
+            // Check for walls
+            if (goingPositive && maze[(int) Math.ceil(x + velocity)][(int) y] == '#') {
+                goingPositive = false; // Turn around
+            } else if (!goingPositive && maze[(int) Math.floor(x - velocity)][(int) y] == '#') {
+                goingPositive = true; // Turn around
+            }
 
-        double distanceToMove = (elapsedTime / 1000.0) * pixelsPerSecond;
+            // Move
+            if (goingPositive) {
+                x += velocity;
+            } else {
+                x -= velocity;
+            }
+        } else if (axis == 'Y') {
+            // Check for walls
+            if (goingPositive && maze[(int) x][(int) Math.ceil(y + velocity)] == '#') {
+                goingPositive = false; // Turn around
+            } else if (!goingPositive && maze[(int) x][(int) Math.floor(y - velocity)] == '#') {
+                goingPositive = true; // Turn around
+            }
 
-        double newX = loc.getPreciseX();
-        double newY = loc.getPreciseY();
-
-        switch (initialDirection) {
-            case 'U':
-                newX -= 1;
-                break;
-            case 'D':
-                newX += 1;
-                break;
-            case 'L':
-                newY -= 1;
-                break;
-            case 'R':
-                newY += 1;
-                break;
-        }
-
-        // Check bounds and walls
-        int gridX = (int) Math.floor(newX);
-        int gridY = (int) Math.floor(newY);
-
-        // Check bounds and walls
-        if (gridX >= 0 && gridX < maze.length && gridY >= 0 && gridY < maze[0].length && maze[gridX][gridY] != '#') {
-            loc.setPreciseX(newX);
-            loc.setPreciseY(newY);
-        } else {
-            // Reverse direction if we hit a wall or go out of bounds
-            switch (initialDirection) {
-                case 'U':
-                    initialDirection = 'D';
-                    break;
-                case 'D':
-                    initialDirection = 'U';
-                    break;
-                case 'L':
-                    initialDirection = 'R';
-                    break;
-                case 'R':
-                    initialDirection = 'L';
-                    break;
+            // Move
+            if (goingPositive) {
+                y += velocity;
+            } else {
+                y -= velocity;
             }
         }
+        System.out.println("x: " + x + ", y: " + y + ", Maze: " + maze[(int) x][(int) y]);
 
-        lastMoveTime = currentTime;
     }
 
-    public BufferedImage getRotatedImage() {
-        double rotationRequired = 0.0;
-        switch (initialDirection) {
-            case 'U':
-                rotationRequired = Math.toRadians(0);
-                break;
-            case 'D':
-                rotationRequired = Math.toRadians(180);
-                break;
-            case 'L':
-                rotationRequired = Math.toRadians(270);
-                break;
-            case 'R':
-                rotationRequired = Math.toRadians(90);
-                break;
+    public void moveBasedOnTimer(char[][] maze) {
+        if (axis == 'X') {
+            double nextX = goingPositive ? x + velocity : x - velocity;
+            if (maze[(int) Math.round(nextX)][(int) Math.round(y)] == '#') {
+                goingPositive = !goingPositive; // Reverse direction
+            } else {
+                x = nextX;
+            }
+        } else if (axis == 'Y') {
+            double nextY = goingPositive ? y + velocity : y - velocity;
+            if (maze[(int) Math.round(x)][(int) Math.round(nextY)] == '#') {
+                goingPositive = !goingPositive; // Reverse direction
+            } else {
+                y = nextY;
+            }
         }
-        double locationX = getImg().getWidth() / 2;
-        double locationY = getImg().getHeight() / 2;
-        AffineTransform tx = AffineTransform.getRotateInstance(rotationRequired, locationX, locationY);
-        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-        return op.filter(getImg(), null);
+        System.out.println("x: " + x + ", y: " + y + ", Maze: " + maze[(int) x][(int) y]);
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
 }

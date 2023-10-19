@@ -74,7 +74,8 @@ public class MazeElement {
 				break;
 		}
 		Location newLoc = new Location(newX, newY);
-		if (maze[newX][newY] != '#') {
+		if (maze[newX][newY] != '#' && maze[newX][newY] != 'A' && maze[newX][newY] != 'B' && maze[newX][newY] != 'C'
+				&& maze[newX][newY] != 'D') {
 			this.loc = newLoc;
 		}
 	}

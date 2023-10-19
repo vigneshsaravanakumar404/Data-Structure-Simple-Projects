@@ -91,4 +91,27 @@ public class AList<T> {
         result.append("]");
         return result.toString();
     }
+
+    // Method to find the index of a given item
+    public int indexOf(T item) {
+        for (int i = 0; i < size; i++) {
+            if (data[i].equals(item)) {
+                return i;
+            }
+        }
+        return -1; // Return -1 if the item is not found
+    }
+
+    public void remove(Object o) {
+        for (int i = 0; i < size; i++) {
+            if (data[i].equals(o)) {
+                // Shift elements to the left to fill the gap
+                for (int j = i; j < size - 1; j++) {
+                    data[j] = data[j + 1];
+                }
+                size--;
+            }
+        }
+    }
+
 }
