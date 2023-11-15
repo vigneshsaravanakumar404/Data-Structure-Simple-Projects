@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "QueueNamesStarter",
+            "request": "launch",
+            "mainClass": "QueueNamesStarter",
+            "projectName": "SingleFileProjects_a2232685"
+        },
+        {
+            "type": "java",
+            "name": "QueueClass",
+            "request": "launch",
+            "mainClass": "QueueClass",
+            "projectName": "SingleFileProjects_a2232685"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
