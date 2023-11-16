@@ -18,7 +18,7 @@ public class BookInventorySystem{
         System.out.println("Total orders in System: " + orderProcessor.getTotalOrders());
 
         // Process book orders
-        orderProcessor.processOrders();
+        orderProcessor.processOrdersPriority();
 
         // Display total orders remaining
         System.out.println("Total orders remaining: " + orderProcessor.getTotalOrders());
