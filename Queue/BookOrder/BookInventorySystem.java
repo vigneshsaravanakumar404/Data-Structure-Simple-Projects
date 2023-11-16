@@ -2,6 +2,9 @@ public class BookInventorySystem{
 
     public static void main(String[] args) {
 
+        System.out.print("\033[H\033[2J");  
+
+        
         // Create a BookOrderProcessor
         BookOrderProcessor orderProcessor = new BookOrderProcessor();
 

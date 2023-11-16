@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BookInventorySystem",
+            "request": "launch",
+            "mainClass": "BookInventorySystem",
+            "projectName": "SingleFileProjects_a2232685"
+        },
+        {
+            "type": "java",
             "name": "QueueNamesStarter",
             "request": "launch",
             "mainClass": "QueueNamesStarter",
