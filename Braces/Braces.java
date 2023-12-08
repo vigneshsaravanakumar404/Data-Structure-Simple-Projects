@@ -3,7 +3,7 @@ import java.util.Stack;
 public class Braces{
 
     public static void main(String[] args) {
-    // Test cases
+    // Test c a s e s
         System.out.println(isValid("(){}[]")); 
         System.out.println(isValid("([{}])")); 
         System.out.println(isValid("(}")); 
