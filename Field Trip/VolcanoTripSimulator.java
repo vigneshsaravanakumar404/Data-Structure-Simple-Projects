@@ -15,7 +15,7 @@ public class VolcanoTripSimulator {
         ArrayList<Student> students = new ArrayList<Student>();
         try {
             for (String line : Files.readAllLines(Paths.get("Students.txt"))) {
-                students.add(new Student(line));
+                students.add(new Student(line, line, line, line));
             }
         } catch (Exception e) {
             System.out.println("Error loading students");

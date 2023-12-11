@@ -1,5 +1,3 @@
-package SuperList;
-
 public class SuperList<T> {
     public class ListNode<T> {
     
@@ -55,8 +53,12 @@ public class SuperList<T> {
         size = 0;
     }
 
-    public void add(T value) {
-        ListNode<T> temp = new ListNode<>(value);
+    public int size() {
+        return size;
+    }
+
+    public void add(T object) {
+        ListNode<T> temp = new ListNode<>(object);
         if (root == null) {
             root = temp;
             end = temp;
@@ -66,6 +68,64 @@ public class SuperList<T> {
             end = temp;
         }
         size++;
+    }
+
+    public void add(T value, int index){
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        ListNode<T> temp = new ListNode<>(value);
+        if (index == 0) {
+            temp.setNext(root);
+            root.setPrev(temp);
+            root = temp;
+        } else if (index == size) {
+            end.setNext(temp);
+            temp.setPrev(end);
+            end = temp;
+        } else {
+            ListNode<T> current = root;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.getNext();
+            }
+            temp.setNext(current.getNext());
+            temp.setPrev(current);
+            current.setNext(temp);
+            temp.getNext().setPrev(temp);
+        }
+        size++;
+    }
+
+    public T remove(int index){
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        T result = null;
+        if (index == 0) {
+            result = root.getElement();
+            root = root.getNext();
+            root.setPrev(null);
+        } else if (index == size - 1) {
+            result = end.getElement();
+            end = end.getPrev();
+            end.setNext(null);
+        } else {
+            ListNode<T> current = root;
+            for (int i = 0; i < index - 1; i++) {
+                current = current.getNext();
+            }
+            result = current.getNext().getElement();
+            current.setNext(current.getNext().getNext());
+            current.getNext().setPrev(current);
+        }
+        size--;
+        return result;
+    }
+
+    public void clear(){
+        root = null;
+        end = null;
+        size = 0;
     }
 
     public String toString() {
@@ -82,9 +142,18 @@ public class SuperList<T> {
         return result;
     }
 
-    public int size() {
-        return size;
+    public boolean contains(T value) {
+        ListNode<T> temp = root;
+        while (temp != null) {
+            if (temp.getElement().equals(value)) {
+                return true;
+            }
+            temp = temp.getNext();
+        }
+        return false;
     }
-
     
+    public boolean isEmpty() {
+        return size == 0;
+    }
 }
