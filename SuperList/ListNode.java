@@ -11,14 +11,12 @@ public class ListNode<T> {
         this.prev = null;
     }
 
-    public T setPrev(ListNode<T> prev) {
+    public void setPrev(ListNode<T> prev) {
         this.prev = prev;
-        return this.element;
     }
 
-    public T setNext(ListNode<T> next) {
+    public void setNext(ListNode<T> next) {
         this.next = next;
-        return this.element;
     }
 
     public ListNode<T> getNext() {
@@ -29,7 +27,7 @@ public class ListNode<T> {
         return this.prev;
     }
 
-    public T getVal() {
+    public T getElement() {
         return element;
     }
 
