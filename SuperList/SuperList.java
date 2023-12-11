@@ -201,6 +201,8 @@ public class SuperList<T> {
 
     public boolean contains(T value) {
         ListNode<T> temp = root;
+
+        // Go through each element until you reach null or get to the element
         while (temp != null) {
             if (temp.getElement().equals(value)) {
                 return true;
