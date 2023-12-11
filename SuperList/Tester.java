@@ -40,6 +40,17 @@ public class Tester {
         assertEquals("[100, 1, 2, 103, 3, 4, 101]", list.toString());
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void addAtInvalidIndex() {
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+
+        // Test the Error
+        list.add(100, 10);
+    }
+
+
     @Test
     public void Clear(){
         SuperList<Integer> list = new SuperList<>();
@@ -78,6 +89,16 @@ public class Tester {
         assertEquals("[1, 2, 3, 4]", list.toString());
         list.remove(2);
         assertEquals("[1, 2, 4]", list.toString());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void removeAtInvalidIndex() {
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+
+        // Test the Error
+        list.remove(10);
     }
 
 }
