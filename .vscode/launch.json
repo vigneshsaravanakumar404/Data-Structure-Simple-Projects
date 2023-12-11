@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "SuperList.Main",
+            "projectName": "Data-Structure-Simple-Projects_7d2af2df"
+        },
+        {
+            "type": "java",
             "name": "BookInventorySystem",
             "request": "launch",
             "mainClass": "BookInventorySystem",
