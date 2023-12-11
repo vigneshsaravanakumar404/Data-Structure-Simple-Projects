@@ -1,4 +1,5 @@
 import org.junit.Test;
+import java.util.EmptyStackException;
 import static org.junit.Assert.*;
 
 public class Tester {
@@ -89,6 +90,12 @@ public class Tester {
         assertEquals("[1, 2, 3, 4]", list.toString());
         list.remove(2);
         assertEquals("[1, 2, 4]", list.toString());
+        list.remove(0);
+        assertEquals("[2, 4]", list.toString());
+        list.remove(0);
+        assertEquals("[4]", list.toString());
+        list.remove(0);
+        assertEquals("[]", list.toString());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -99,6 +106,46 @@ public class Tester {
 
         // Test the Error
         list.remove(10);
+    }
+
+    @Test
+    public void pop(){
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+
+        assertEquals(2, (int)list.pop());
+    }
+
+    @Test(expected = EmptyStackException.class)
+    public void popEmpty(){
+        SuperList<Integer> list = new SuperList<>();
+        list.pop();
+    }
+
+    @Test
+    public void poll(){
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+
+        assertEquals(1, (int)list.poll());
+        assertEquals(null, list.poll());
+    }
+
+    @Test
+    public void isEmpty(){
+        SuperList<Integer> list = new SuperList<>();
+        assertEquals(true, list.isEmpty());
+        list.add(1);
+        assertEquals(false, list.isEmpty());
+    }
+
+    @Test
+    public void push(){
+        SuperList<Integer> list = new SuperList<>();
+        list.push(1);
+        list.push(2);
+        assertEquals("[1, 2]", list.toString());
     }
 
 }

@@ -1,3 +1,6 @@
+import java.util.EmptyStackException;
+
+
 public class SuperList<T> {
     public class ListNode<T> {
     
@@ -126,6 +129,10 @@ public class SuperList<T> {
     
     }
 
+    public void push(T object){
+        add(object);
+    }
+
     public T remove(int index){
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
@@ -141,8 +148,11 @@ public class SuperList<T> {
         if (index == 0) {
             result = root.getElement();
             root = root.getNext();
-            root.setPrev(null);
-        } 
+            if (root != null) {
+                root.setPrev(null);
+            }
+        }
+        
         
         /*
          * if removing from the end:
@@ -177,6 +187,23 @@ public class SuperList<T> {
         // Decrease the size & return the result
         size--;
         return result;
+    }
+
+    public T pop(){
+        if (size == 0) {
+            throw new EmptyStackException();
+
+        }
+        return remove(size - 1);
+    }
+
+    public T poll(){
+        if (size == 0){
+            return null;
+        }
+        else{
+            return remove(0);
+        }
     }
 
     public void clear(){
@@ -215,4 +242,5 @@ public class SuperList<T> {
     public boolean isEmpty() {
         return size == 0;
     }
+
 }
