@@ -54,5 +54,37 @@ public class SuperList<T> {
         end = null;
         size = 0;
     }
+
+    public void add(T value) {
+        ListNode<T> temp = new ListNode<>(value);
+        if (root == null) {
+            root = temp;
+            end = temp;
+        } else {
+            end.setNext(temp);
+            temp.setPrev(end);
+            end = temp;
+        }
+        size++;
+    }
+
+    public String toString() {
+        String result = "[";
+        ListNode<T> temp = root;
+        while (temp != null) {
+            result += temp.getElement().toString();
+            if (temp.hasNext()) {
+                result += ", ";
+            }
+            temp = temp.getNext();
+        }
+        result += "]";
+        return result;
+    }
+
+    public int size() {
+        return size;
+    }
+
     
 }
