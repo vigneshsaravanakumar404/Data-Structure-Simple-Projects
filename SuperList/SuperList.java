@@ -309,16 +309,16 @@ public class SuperList<T> {
     }
     
     public String toString() {
-        String result = "[";
+        StringBuilder result = new StringBuilder("[");
         ListNode<T> temp = root;
         while (temp != null) {
-            result += temp.getElement().toString();
+            result.append(temp.getElement().toString());
             if (temp.hasNext()) {
-                result += ", ";
+                result.append(", ");
             }
             temp = temp.getNext();
         }
-        result += "]";
-        return result;
+        result.append("]");
+        return result.toString();
     }
 }
