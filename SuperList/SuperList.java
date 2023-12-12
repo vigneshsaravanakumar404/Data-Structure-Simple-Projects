@@ -2,35 +2,35 @@ import java.util.EmptyStackException;
 
 
 public class SuperList<T> {
-    public class ListNode<T> {
+    public class ListNode<E> {
     
-        private T element;
-        private ListNode<T> prev;
-        private ListNode<T> next;
+        private E element;
+        private ListNode<E> prev;
+        private ListNode<E> next;
     
-        public ListNode(T element) {
+        public ListNode(E element) {
             this.element = element;
             this.next = null;
             this.prev = null;
         }
     
-        public void setPrev(ListNode<T> prev) {
+        public void setPrev(ListNode<E> prev) {
             this.prev = prev;
         }
     
-        public void setNext(ListNode<T> next) {
+        public void setNext(ListNode<E> next) {
             this.next = next;
         }
     
-        public ListNode<T> getNext() {
+        public ListNode<E> getNext() {
             return this.next;
         }
     
-        public ListNode<T> getPrev() {
+        public ListNode<E> getPrev() {
             return this.prev;
         }
     
-        public T getElement() {
+        public E getElement() {
             return element;
         }
     
