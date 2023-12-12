@@ -148,4 +148,52 @@ public class Tester {
         assertEquals("[1, 2]", list.toString());
     }
 
+    @Test
+    public void get(){
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        assertEquals(1, (int)list.get(0));
+        assertEquals(2, (int)list.get(1));
+        assertEquals(3, (int)list.get(2));
+        assertEquals(1, (int)list.queuePeek());
+        assertEquals(3, (int)list.stackPeek());
+        list.remove(0);
+        list.remove(0);
+        list.remove(0);
+        assertEquals(null, list.queuePeek());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void getInvalidIndex() {
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+
+        // Test the Error
+        list.get(10);
+    }
+
+    @Test
+    public void set(){
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.set(100, 0);
+        list.set(200, 1);
+        list.set(300, 2);
+        assertEquals("[100, 200, 300]", list.toString());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void setInvalidIndex() {
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+
+        // Test the Error
+        list.set(10, 100);
+    }
 }
