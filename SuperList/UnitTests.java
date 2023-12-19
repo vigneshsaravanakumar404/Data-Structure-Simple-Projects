@@ -2,7 +2,7 @@ import org.junit.Test;
 import java.util.EmptyStackException;
 import static org.junit.Assert.*;
 
-public class Tester {
+public class UnitTests {
 
     @Test
     public void AddAndSize() {
@@ -35,9 +35,9 @@ public class Tester {
         list.add(2); // 1
         list.add(3); // 2
         list.add(4); // 3
-        list.add(100, 0); // Add 100 to the start
-        list.add(101, 5); // Add 101 to the end
-        list.add(103, 3); // Add 103 to the middle
+        list.add(0, 100); // Add 100 to the start
+        list.add(5, 101); // Add 101 to the end
+        list.add(3, 103); // Add 103 to the middle
         assertEquals("[100, 1, 2, 103, 3, 4, 101]", list.toString());
     }
 
@@ -48,7 +48,7 @@ public class Tester {
         list.add(2);
 
         // Test the Error
-        list.add(100, 10);
+        list.add(10, 100);
     }
 
 
@@ -59,9 +59,9 @@ public class Tester {
         list.add(2); // 1
         list.add(3); // 2
         list.add(4); // 3
-        list.add(100, 0); // Add 100 to the start
-        list.add(101, 5); // Add 101 to the end
-        list.add(103, 3); // Add 103 to the middle
+        list.add(0, 100); // Add 100 to the start
+        list.add(5, 101); // Add 101 to the end
+        list.add(3, 103); // Add 103 to the middle
         list.clear();
         assertEquals("[]", list.toString());
     }
@@ -70,7 +70,7 @@ public class Tester {
     public void contains(){
         SuperList<Integer> list = new SuperList<>();
         list.add(1); // 0
-        list.add(2); // 1
+        list.add(2); // 1   
         list.add(3); // 2
         list.add(4); // 3
         assertEquals(list.contains(4), true);
@@ -196,4 +196,90 @@ public class Tester {
         // Test the Error
         list.set(10, 100);
     }
+
+    // Suggested Test Cases
+    @Test(expected = EmptyStackException.class)
+    public void test_as_a_stack(){
+        SuperList<Integer> stack = new SuperList<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+        assertEquals(3, stack.size());
+        assertEquals("[1, 2, 3]", stack.toString());
+        assertEquals(3, (int)stack.stackPeek());
+        assertEquals(3, (int)stack.pop());
+        assertEquals(2, (int)stack.pop());
+        assertEquals(1, (int)stack.pop());        
+        assertEquals(0, stack.size());
+        assertEquals(true, stack.isEmpty());
+        stack.pop();
+    }
+
+    // Test as a queue
+    @Test
+    public void test_as_a_queue(){
+        SuperList<Integer> queue = new SuperList<>();
+        queue.add(1);
+        queue.add(2);
+        queue.add(3);
+        assertEquals(3, queue.size());
+        assertEquals("[1, 2, 3]", queue.toString());
+        assertEquals(1, (int)queue.queuePeek());
+        assertEquals(1, (int)queue.poll());
+        assertEquals(2, (int)queue.poll());
+        assertEquals(3, (int)queue.poll());        
+        assertEquals(0, queue.size());
+        assertEquals(true, queue.isEmpty());
+        assertEquals(null, queue.poll());
+    }
+
+    // Test as arraylist
+    @Test 
+    public void test_as_arraylist(){
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        assertEquals(3, list.size());
+        assertEquals("[1, 2, 3]", list.toString());
+        assertEquals(1, (int)list.get(0));
+        assertEquals(2, (int)list.get(1));
+        assertEquals(3, (int)list.get(2));
+        list.set(100, 0);
+        list.set(200, 1);
+        list.set(300, 2);
+        assertEquals("[100, 200, 300]", list.toString());
+        list.remove(0);
+        list.remove(0);
+        list.remove(0);
+        assertEquals("[]", list.toString());
+        assertEquals(0, list.size());
+        assertEquals(true, list.isEmpty());
+        assertEquals("[]", list.toString());
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(0, 100); // Add 100 to the start
+        assertEquals("[100, 1, 2, 3]", list.toString());
+        try {
+            list.remove(10);
+            fail("Should have thrown an exception");
+        } catch (IndexOutOfBoundsException e) {
+            
+        }
+        assertEquals(4, list.size());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void test_as_arraylist_errors(){
+        SuperList<Integer> list = new SuperList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.get(10);
+        list.set(10, 100);
+        list.remove(10);
+    }
+
+
 }

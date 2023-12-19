@@ -1,3 +1,5 @@
+// Vignesh Saravanakumar
+
 import java.util.EmptyStackException;
 
 
@@ -30,7 +32,7 @@ public class SuperList<T> {
             return this.prev;
         }
     
-        public E getElement() {
+        public E getVal() {
             return element;
         }
     
@@ -72,7 +74,7 @@ public class SuperList<T> {
 
         // Go through each element until you reach null or get to the element
         while (temp != null) {
-            if (temp.getElement().equals(value)) {
+            if (temp.getVal().equals(value)) {
                 return true;
             }
             temp = temp.getNext();
@@ -98,7 +100,7 @@ public class SuperList<T> {
         size++;
     }
 
-    public void add(T value, int index){
+    public void add(int index, T value){
         
         // Check if the requested add location is out of size
         if (index < 0 || index > size) {
@@ -172,7 +174,7 @@ public class SuperList<T> {
          * set the previous to null to show its the start of the nodes
          */
         if (index == 0) {
-            result = root.getElement();
+            result = root.getVal();
             root = root.getNext();
             if (root != null) {
                 root.setPrev(null);
@@ -187,7 +189,7 @@ public class SuperList<T> {
          * set the next to null to show its the end of the nodes
          */
         else if (index == size - 1) {
-            result = end.getElement();
+            result = end.getVal();
             end = end.getPrev();
             end.setNext(null);
         } 
@@ -205,7 +207,7 @@ public class SuperList<T> {
             for (int i = 0; i < index - 1; i++) {
                 current = current.getNext();
             }
-            result = current.getNext().getElement();
+            result = current.getNext().getVal();
             current.setNext(current.getNext().getNext());
             current.getNext().setPrev(current);
         }
@@ -239,15 +241,15 @@ public class SuperList<T> {
         }
         T result;
         if (index == 0) {
-            result = root.getElement();
+            result = root.getVal();
         } else if (index == size - 1) {
-            result = end.getElement();
+            result = end.getVal();
         } else {
             ListNode<T> current = root;
             for (int i = 0; i < index - 1; i++) {
                 current = current.getNext();
             }
-            result = current.getNext().getElement();
+            result = current.getNext().getVal();
         }
 
         return result;
@@ -275,7 +277,7 @@ public class SuperList<T> {
         T result;
     
         if (index == 0) {
-            result = root.getElement();
+            result = root.getVal();
             ListNode<T> temp = new ListNode<>(object);
             temp.setNext(root.getNext());
             if (temp.getNext() != null) {
@@ -283,7 +285,7 @@ public class SuperList<T> {
             }
             root = temp;
         } else if (index == size - 1) {
-            result = end.getElement();
+            result = end.getVal();
             ListNode<T> temp = new ListNode<>(object);
             temp.setPrev(end.getPrev());
             if (temp.getPrev() != null) {
@@ -295,7 +297,7 @@ public class SuperList<T> {
             for (int i = 0; i < index - 1; i++) {
                 current = current.getNext();
             }
-            result = current.getNext().getElement();
+            result = current.getNext().getVal();
             ListNode<T> temp = new ListNode<>(object);
             temp.setNext(current.getNext().getNext());
             temp.setPrev(current);
@@ -312,7 +314,7 @@ public class SuperList<T> {
         StringBuilder result = new StringBuilder("[");
         ListNode<T> temp = root;
         while (temp != null) {
-            result.append(temp.getElement().toString());
+            result.append(temp.getVal().toString());
             if (temp.hasNext()) {
                 result.append(", ");
             }
