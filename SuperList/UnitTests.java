@@ -281,5 +281,66 @@ public class UnitTests {
         list.remove(10);
     }
 
+    @Test
+    public void testStackPushPeekSize() {
+        SuperList<Integer> stack = new SuperList<>();
+        for (int i = 5; i <= 10; i++) {
+            stack.push(i);
+        }
+        assertEquals("[5, 6, 7, 8, 9, 10]", stack.toString());
+        assertEquals(10, (int) stack.stackPeek());
+        assertEquals(6, stack.size());
+    }
 
+    @Test
+    public void testStackPop() {
+        SuperList<Integer> stack = new SuperList<>();
+        for (int i = 5; i <= 10; i++) {
+            stack.push(i);
+        }
+        assertEquals(10, (int) stack.pop());
+        assertEquals(5, stack.size());
+        assertEquals("[5, 6, 7, 8, 9]", stack.toString());
+    }
+
+    @Test
+    public void testStackPopUntilEmpty() {
+        SuperList<Integer> stack = new SuperList<>();
+        for (int i = 5; i <= 10; i++) {
+            stack.push(i);
+        }
+        StringBuilder poppedElements = new StringBuilder();
+        while (!stack.isEmpty()) {
+            poppedElements.append(stack.pop()).append(" ");
+        }
+        assertEquals("10 9 8 7 6 5", poppedElements.toString().trim());
+}
+
+
+    @Test(expected = java.util.EmptyStackException.class)
+    public void testPopOnEmptyStack() {
+        SuperList<Integer> stack = new SuperList<>();
+        stack.pop();
+    }
+
+    @Test(expected = java.util.EmptyStackException.class)
+    public void testPeekOnEmptyStack() {
+        SuperList<Integer> stack = new SuperList<>();
+        stack.stackPeek();
+    }
+
+    @Test
+    public void testStackClearAndOperations() {
+        SuperList<Integer> stack = new SuperList<>();
+        stack.push(5);
+        stack.clear();
+        try {
+            stack.pop();
+            fail("Should have thrown java.util.EmptyStackException");
+        } catch (java.util.EmptyStackException e) {
+            // Expected exception
+        }
+    }
+
+    
 }
