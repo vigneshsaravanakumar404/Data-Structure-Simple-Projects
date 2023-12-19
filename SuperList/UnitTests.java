@@ -342,5 +342,41 @@ public class UnitTests {
         }
     }
 
+    @Test
+    public void testAddToEmptyList() {
+        SuperList<Integer> superList = new SuperList<>();
+        superList.add(0, 10);
+        assertEquals("[10]", superList.toString());
+    }
+
+    @Test
+    public void testAddAtBeginning() {
+        SuperList<Integer> superList = new SuperList<>();
+        superList.add(0, 10);
+        superList.add(0, 5);
+        assertEquals("[5, 10]", superList.toString());
+    }
+
+    @Test
+    public void testAddAtEnd() {
+        SuperList<Integer> superList = new SuperList<>();
+        superList.add(0, 10);
+        superList.add(superList.size(), 15);
+        assertEquals("[10, 15]", superList.toString());
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testAddAtIndexExceedingSize() {
+        SuperList<Integer> superList = new SuperList<>();
+        superList.add(10, 25);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testRemoveFromEmptyList() {
+        SuperList<Integer> superList = new SuperList<>();
+        superList.remove(0);
+    }
+
+
     
 }
