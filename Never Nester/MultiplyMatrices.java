@@ -14,15 +14,10 @@ public class MultiplyMatrices{
 
 	// Multiply Method
 	public static void multiplyMethod (int[][] arr1,int[][] arr2) {
-		
-		System.out.println("Product:");
-		
-		if(arr1[0].length == arr2.length){
-			compute(arr1, arr2);
+		if(arr1[0].length != arr2.length)
+			System.out.println("Product is not possible");	
+		compute(arr1, arr2);
 
-		} else{
-			System.out.println("Product is not possible");
-		}
 
 	}
 
@@ -50,6 +45,7 @@ public class MultiplyMatrices{
 
 	// To String Method
 	private static void printArray(int[][] answ) {
+		System.out.println("Product:");	
 		for(int row = 0; row < answ.length; row ++) {
 			for(int col = 0; col < answ[row].length; col++){
 				System.out.print(answ[row][col]+" ");
