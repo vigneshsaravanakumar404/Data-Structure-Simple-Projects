@@ -35,7 +35,7 @@ public class Student implements Comparable<Student> {
 		return this.toString().compareTo(other.toString());
 	}
 
-    public void lavaBaths() {
-    }
+	public void lavaBaths() {
+	}
 
 }

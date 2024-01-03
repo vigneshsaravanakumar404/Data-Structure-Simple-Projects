@@ -29,7 +29,7 @@ public class UnitTests {
     }
 
     @Test
-    public void Add(){
+    public void Add() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1); // 0
         list.add(2); // 1
@@ -51,9 +51,8 @@ public class UnitTests {
         list.add(10, 100);
     }
 
-
     @Test
-    public void Clear(){
+    public void Clear() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1); // 0
         list.add(2); // 1
@@ -67,10 +66,10 @@ public class UnitTests {
     }
 
     @Test
-    public void contains(){
+    public void contains() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1); // 0
-        list.add(2); // 1   
+        list.add(2); // 1
         list.add(3); // 2
         list.add(4); // 3
         assertEquals(list.contains(4), true);
@@ -79,7 +78,7 @@ public class UnitTests {
     }
 
     @Test
-    public void remove(){
+    public void remove() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1); // 0
         list.add(2); // 1
@@ -109,31 +108,31 @@ public class UnitTests {
     }
 
     @Test
-    public void pop(){
+    public void pop() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1);
         list.add(2);
 
-        assertEquals(2, (int)list.pop());
+        assertEquals(2, (int) list.pop());
     }
 
     @Test(expected = EmptyStackException.class)
-    public void popEmpty(){
+    public void popEmpty() {
         SuperList<Integer> list = new SuperList<>();
         list.pop();
     }
 
     @Test
-    public void poll(){
+    public void poll() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1);
 
-        assertEquals(1, (int)list.poll());
+        assertEquals(1, (int) list.poll());
         assertEquals(null, list.poll());
     }
 
     @Test
-    public void isEmpty(){
+    public void isEmpty() {
         SuperList<Integer> list = new SuperList<>();
         assertEquals(true, list.isEmpty());
         list.add(1);
@@ -141,7 +140,7 @@ public class UnitTests {
     }
 
     @Test
-    public void push(){
+    public void push() {
         SuperList<Integer> list = new SuperList<>();
         list.push(1);
         list.push(2);
@@ -149,16 +148,16 @@ public class UnitTests {
     }
 
     @Test
-    public void get(){
+    public void get() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1);
         list.add(2);
         list.add(3);
-        assertEquals(1, (int)list.get(0));
-        assertEquals(2, (int)list.get(1));
-        assertEquals(3, (int)list.get(2));
-        assertEquals(1, (int)list.queuePeek());
-        assertEquals(3, (int)list.stackPeek());
+        assertEquals(1, (int) list.get(0));
+        assertEquals(2, (int) list.get(1));
+        assertEquals(3, (int) list.get(2));
+        assertEquals(1, (int) list.queuePeek());
+        assertEquals(3, (int) list.stackPeek());
         list.remove(0);
         list.remove(0);
         list.remove(0);
@@ -176,7 +175,7 @@ public class UnitTests {
     }
 
     @Test
-    public void set(){
+    public void set() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1);
         list.add(2);
@@ -199,17 +198,17 @@ public class UnitTests {
 
     // Suggested Test Cases
     @Test(expected = EmptyStackException.class)
-    public void test_as_a_stack(){
+    public void test_as_a_stack() {
         SuperList<Integer> stack = new SuperList<>();
         stack.push(1);
         stack.push(2);
         stack.push(3);
         assertEquals(3, stack.size());
         assertEquals("[1, 2, 3]", stack.toString());
-        assertEquals(3, (int)stack.stackPeek());
-        assertEquals(3, (int)stack.pop());
-        assertEquals(2, (int)stack.pop());
-        assertEquals(1, (int)stack.pop());        
+        assertEquals(3, (int) stack.stackPeek());
+        assertEquals(3, (int) stack.pop());
+        assertEquals(2, (int) stack.pop());
+        assertEquals(1, (int) stack.pop());
         assertEquals(0, stack.size());
         assertEquals(true, stack.isEmpty());
         stack.pop();
@@ -217,34 +216,34 @@ public class UnitTests {
 
     // Test as a queue
     @Test
-    public void test_as_a_queue(){
+    public void test_as_a_queue() {
         SuperList<Integer> queue = new SuperList<>();
         queue.add(1);
         queue.add(2);
         queue.add(3);
         assertEquals(3, queue.size());
         assertEquals("[1, 2, 3]", queue.toString());
-        assertEquals(1, (int)queue.queuePeek());
-        assertEquals(1, (int)queue.poll());
-        assertEquals(2, (int)queue.poll());
-        assertEquals(3, (int)queue.poll());        
+        assertEquals(1, (int) queue.queuePeek());
+        assertEquals(1, (int) queue.poll());
+        assertEquals(2, (int) queue.poll());
+        assertEquals(3, (int) queue.poll());
         assertEquals(0, queue.size());
         assertEquals(true, queue.isEmpty());
         assertEquals(null, queue.poll());
     }
 
     // Test as arraylist
-    @Test 
-    public void test_as_arraylist(){
+    @Test
+    public void test_as_arraylist() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1);
         list.add(2);
         list.add(3);
         assertEquals(3, list.size());
         assertEquals("[1, 2, 3]", list.toString());
-        assertEquals(1, (int)list.get(0));
-        assertEquals(2, (int)list.get(1));
-        assertEquals(3, (int)list.get(2));
+        assertEquals(1, (int) list.get(0));
+        assertEquals(2, (int) list.get(1));
+        assertEquals(3, (int) list.get(2));
         list.set(100, 0);
         list.set(200, 1);
         list.set(300, 2);
@@ -265,13 +264,13 @@ public class UnitTests {
             list.remove(10);
             fail("Should have thrown an exception");
         } catch (IndexOutOfBoundsException e) {
-            
+
         }
         assertEquals(4, list.size());
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
-    public void test_as_arraylist_errors(){
+    public void test_as_arraylist_errors() {
         SuperList<Integer> list = new SuperList<>();
         list.add(1);
         list.add(2);
@@ -314,8 +313,7 @@ public class UnitTests {
             poppedElements.append(stack.pop()).append(" ");
         }
         assertEquals("10 9 8 7 6 5", poppedElements.toString().trim());
-}
-
+    }
 
     @Test(expected = java.util.EmptyStackException.class)
     public void testPopOnEmptyStack() {
@@ -377,6 +375,4 @@ public class UnitTests {
         superList.remove(0);
     }
 
-
-    
 }

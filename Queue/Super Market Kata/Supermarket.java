@@ -1,10 +1,10 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class Supermarket  {
+public class Supermarket {
 
     public static void main(String[] args) {
-        System.out.println(solveSuperMarketQueue(new int[] {2,3,10}, 2));
+        System.out.println(solveSuperMarketQueue(new int[] { 2, 3, 10 }, 2));
     }
 
     public static int solveSuperMarketQueue(int[] customers, int n) {
@@ -20,7 +20,7 @@ public class Supermarket  {
         for (int i = 0; i < customers.length; i++) {
             queue.add(customers[i]);
         }
-        
+
         // Send the Customer to the Checkout with the Least Time
         while (!queue.isEmpty()) {
             for (int i = 0; i < checkouts.length; i++) {
@@ -30,7 +30,7 @@ public class Supermarket  {
                 }
             }
             checkouts[minCheckout] += queue.poll();
-            min = Integer.MAX_VALUE;            
+            min = Integer.MAX_VALUE;
         }
 
         // Find the Checkout with the Longest Time

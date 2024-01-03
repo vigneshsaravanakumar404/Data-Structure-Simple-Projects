@@ -14,7 +14,7 @@ public class BookOrderProcessor {
     public void enqueueOrder(BookOrder order) {
         orderQueue.add(order);
         priorityQueue.add(order);
-        
+
     }
 
     public void processOrders() {
@@ -31,7 +31,7 @@ public class BookOrderProcessor {
         }
     }
 
-    public int getTotalOrders(){
+    public int getTotalOrders() {
         return orderQueue.size();
     }
 }

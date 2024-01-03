@@ -2,51 +2,49 @@
 
 import java.util.EmptyStackException;
 
-
 public class SuperList<T> {
     public class ListNode<E> {
-    
+
         private E element;
         private ListNode<E> prev;
         private ListNode<E> next;
-    
+
         public ListNode(E element) {
             this.element = element;
             this.next = null;
             this.prev = null;
         }
-    
+
         public void setPrev(ListNode<E> prev) {
             this.prev = prev;
         }
-    
+
         public void setNext(ListNode<E> next) {
             this.next = next;
         }
-    
+
         public ListNode<E> getNext() {
             return this.next;
         }
-    
+
         public ListNode<E> getPrev() {
             return this.prev;
         }
-    
+
         public E getVal() {
             return element;
         }
-    
+
         public boolean hasNext() {
             return this.next != null;
         }
-    
+
         public boolean hasPrev() {
             return this.prev != null;
         }
-    
+
     }
 
-    
     private ListNode<T> root;
     private ListNode<T> end;
     private int size;
@@ -63,7 +61,7 @@ public class SuperList<T> {
         return size;
     }
 
-    public void clear(){
+    public void clear() {
         root = null;
         end = null;
         size = 0;
@@ -81,7 +79,7 @@ public class SuperList<T> {
         }
         return false;
     }
-    
+
     public boolean isEmpty() {
         return size == 0;
     }
@@ -105,10 +103,10 @@ public class SuperList<T> {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException();
         }
-    
+
         // Create temporary holding space for the value to be added
         ListNode<T> temp = new ListNode<>(value);
-    
+
         // Special case: Adding to an empty list
         if (root == null) {
             root = temp;
@@ -119,13 +117,13 @@ public class SuperList<T> {
             temp.setNext(root);
             root.setPrev(temp);
             root = temp;
-        } 
+        }
         // Adding at the end of the list
         else if (index == size) {
             end.setNext(temp);
             temp.setPrev(end);
             end = temp;
-        } 
+        }
         // Adding somewhere in the middle
         else {
             ListNode<T> current = root;
@@ -139,17 +137,17 @@ public class SuperList<T> {
                 temp.getNext().setPrev(temp);
             }
         }
-    
+
         // Increase the size
         size++;
     }
-    
-    public void push(T object){
+
+    public void push(T object) {
         add(object);
     }
 
     // Remove
-    public T remove(int index){
+    public T remove(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -168,8 +166,7 @@ public class SuperList<T> {
                 root.setPrev(null);
             }
         }
-        
-        
+
         /*
          * if removing from the end:
          * get the element at the removal spot
@@ -180,8 +177,8 @@ public class SuperList<T> {
             result = end.getVal();
             end = end.getPrev();
             end.setNext(null);
-        } 
-        
+        }
+
         /*
          * if removing elsewhere:
          * create a temp copy of the nodes
@@ -205,7 +202,7 @@ public class SuperList<T> {
         return result;
     }
 
-    public T pop(){
+    public T pop() {
         if (isEmpty()) {
             throw new EmptyStackException();
 
@@ -213,17 +210,16 @@ public class SuperList<T> {
         return remove(size - 1);
     }
 
-    public T poll(){
-        if (isEmpty()){
+    public T poll() {
+        if (isEmpty()) {
             return null;
-        }
-        else{
+        } else {
             return remove(0);
         }
     }
 
     // Get
-    public T get(int index){
+    public T get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -243,14 +239,14 @@ public class SuperList<T> {
         return result;
     }
 
-    public T stackPeek(){
+    public T stackPeek() {
         if (isEmpty()) {
             throw new EmptyStackException();
         }
         return get(size - 1);
     }
 
-    public T queuePeek(){
+    public T queuePeek() {
         if (isEmpty()) {
             return null;
         }
@@ -263,7 +259,7 @@ public class SuperList<T> {
             throw new IndexOutOfBoundsException();
         }
         T result;
-    
+
         if (index == 0) {
             result = root.getVal();
             ListNode<T> temp = new ListNode<>(object);
@@ -294,10 +290,10 @@ public class SuperList<T> {
                 temp.getNext().setPrev(temp);
             }
         }
-    
+
         return result;
     }
-    
+
     public String toString() {
         StringBuilder result = new StringBuilder("[");
         ListNode<T> temp = root;

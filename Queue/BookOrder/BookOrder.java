@@ -1,23 +1,22 @@
-public class BookOrder{
+public class BookOrder {
 
     private String bookTitle;
     private int quantity;
-    
 
-    public BookOrder(String bookTitle, int quantity){
+    public BookOrder(String bookTitle, int quantity) {
         this.bookTitle = bookTitle;
         this.quantity = quantity;
     }
 
-    public String getBookTitle(){
+    public String getBookTitle() {
         return bookTitle;
     }
 
-    public int getQuantity(){
+    public int getQuantity() {
         return quantity;
     }
 
-    public String toString(){
+    public String toString() {
         return bookTitle + " " + quantity;
     }
 }
