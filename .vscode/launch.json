@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "HKRunner",
+            "request": "launch",
+            "mainClass": "Hashkeeping.HKRunner",
+            "projectName": "Data-Structure-Simple-Projects_3f9370b1"
+        },
+        {
+            "type": "java",
             "name": "HashKeeper",
             "request": "launch",
             "mainClass": "Hashkeeping.HashKeeper",

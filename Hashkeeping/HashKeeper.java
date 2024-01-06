@@ -16,46 +16,87 @@ public class HashKeeper<E> {
     }
 
     public boolean contains(E val) {
-        if (null == table[hashToIndex(val)]) {
-            return false;
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] != null && table[i].equals(val)) {
+                return true;
+            }
         }
-        return true;
+        return false;
     }
 
-    public E remove(E val) {
-        if (contains(val)) {
-            table[hashToIndex(val)] = null;
+    public boolean remove(E val) {
+        int index = hashToIndex(val);
+        if (table[index] != null && table[index].equals(val)) {
+            table[index] = null;
             size--;
-            return val;
+            return true;
+        } else {
+            int i = index;
+            do {
+                i = (i + 1) % table.length;
+                if (table[i] != null && table[i].equals(val)) {
+                    table[i] = null;
+                    size--;
+                    return true;
+                }
+            } while (i != index);
         }
-        return null;
+        return false;
+    }
+
+    private <T> void rehash() {
+        Object[] oldTable = table;
+        table = new Object[oldTable.length * 2 + 1];
+        size = 0;
+        for (int i = 0; i < oldTable.length; i++) {
+            if (oldTable[i] != null) {
+                add((E) oldTable[i]);
+            }
+        }
     }
 
     public void add(E val) {
-        table[hashToIndex(val)] = val;
-        size++;
+
+        if (size >= table.length * LOAD_FACTOR) {
+            rehash();
+        }
+        int index = hashToIndex(val);
+
+        if (table[index] == null) {
+            table[index] = val;
+            size++;
+        } else {
+            int i = index;
+            do {
+                i = (i + 1) % table.length;
+            } while (table[i] != null);
+            table[i] = val;
+            size++;
+        }
+
     }
 
     public void printBuckets() {
-        System.out.print("[");
-        if (size == 0) {
-            System.out.print("]");
-            return;
+        String s = "";
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] != null) {
+                s += table[i] + " ";
+            }
         }
-        for (int i = 0; i < table.length - 1; i++) {
-            System.out.print("\"" + table[i] + "\", ");
-        }
-        System.out.print("\"" + table[table.length - 1] + "\"]\n");
+        System.out.println(s);
     }
 
-    public static void main(String[] args) {
-        HashKeeper<String> hk = new HashKeeper<>(6);
-        hk.add("Keys");
-        hk.add("Wallet");
-        hk.add("Glasses");
-        hk.printBuckets();
-        System.out.println(hk.contains("Glasses"));
-        System.out.println(hk.remove("Glasses"));
-        System.out.println(hk.contains("Glasses"));
+    public String toString() {
+        String s = "[";
+        for (int i = 0; i < table.length; i++) {
+            if (table[i] != null) {
+                s += table[i] + ", ";
+            }
+        }
+        if (s.length() > 1) {
+            s = s.substring(0, s.length() - 2);
+        }
+        s += "]";
+        return s;
     }
 }
