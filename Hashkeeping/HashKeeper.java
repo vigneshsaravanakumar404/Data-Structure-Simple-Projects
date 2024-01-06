@@ -16,9 +16,18 @@ public class HashKeeper<E> {
     }
 
     public boolean contains(E val) {
-        for (int i = 0; i < table.length; i++) {
-            if (table[i] != null && table[i].equals(val)) {
+        int startIndex = hashToIndex(val);
+        for (int i = startIndex; i < table.length; i++) {
+            if (table[i] == null) {
+                return false;
+            } else if (table[i].equals(val)) {
                 return true;
+            }
+            if (i == table.length - 1) {
+                i = -1; 
+            }
+            if (i == startIndex - 1) {
+                return false;
             }
         }
         return false;
