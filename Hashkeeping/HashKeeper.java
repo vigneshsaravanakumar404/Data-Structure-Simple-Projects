@@ -5,6 +5,7 @@ public class HashKeeper<E> {
     private Object[] table;
     private int size;
     public static final double LOAD_FACTOR = 0.75;
+    public static final Object TOMBSTON_OBJECT = new Object();
 
     public HashKeeper(int capacity) {
         table = new Object[capacity];
@@ -54,21 +55,27 @@ public class HashKeeper<E> {
     }
 
     private <T> void rehash() {
+        System.out.println("Size" + size + "REHASHING");
+        int newCapacity = table.length * 2;
         Object[] oldTable = table;
-        table = new Object[oldTable.length * 2 + 1];
-        size = 0;
+        table = new Object[newCapacity];
+
+        
         for (int i = 0; i < oldTable.length; i++) {
-            if (oldTable[i] != null) {
+            if (oldTable[i] != null && oldTable[i] != TOMBSTON_OBJECT) {
                 add((E) oldTable[i]);
             }
         }
+
+        size = 0;
     }
 
     public void add(E val) {
 
-        if (size >= table.length * LOAD_FACTOR) {
+        if (size == table.length * LOAD_FACTOR) {
             rehash();
         }
+
         int index = hashToIndex(val);
 
         if (table[index] == null) {
@@ -84,6 +91,7 @@ public class HashKeeper<E> {
         }
 
     }
+
 
     public void printBuckets() {
         String s = "";
