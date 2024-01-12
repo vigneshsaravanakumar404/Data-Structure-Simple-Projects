@@ -8,8 +8,8 @@ public class Birthday {
     
     public static void main(String[] args) {
         
-        double average = 0.0;
-        int trials = 100_000_000;
+        long average = 0L;
+        long trials = 10_000_000;
         Random rand = new Random(); 
 
         for (int i = 0; i < trials; i++){
@@ -20,10 +20,10 @@ public class Birthday {
                 average++;
             }
 
-            if (i % 100_000 == 0){
-                System.out.println("Progress: " + String.valueOf((i/Double.valueOf(trials)) * 100) + "%");
+            if (i % 1_000_000 == 0){
+                System.out.println("Progress: " + (i/Double.valueOf(trials) * 100) + "% at time: " + System.currentTimeMillis());
             }
         }
-        System.out.println("It took " + String.valueOf(average/trials) + " times on average.");
+        System.out.println("It took " + average/Double.valueOf(trials) + " times on average.");
     }
 }
