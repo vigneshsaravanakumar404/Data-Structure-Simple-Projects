@@ -3,9 +3,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class VSSeussDriver {
-    
+
     public static void main(String[] args) {
-        
+
         // Open GreenEggsAndHam.txt and store it in a String
         String book = "";
         File file = new File("GreenEggsAndHam.txt");
@@ -26,7 +26,6 @@ public class VSSeussDriver {
             hashKeeper.add(word);
         }
         System.out.println(hashKeeper.size() + " words in the book.");
-        
 
         // Print hashKeeper with each word on a new line
         for (int i = 0; i < hashKeeper.table.length; i++) {

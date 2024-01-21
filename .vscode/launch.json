@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Car",
+            "request": "launch",
+            "mainClass": "Car",
+            "projectName": "Data-Structure-Simple-Projects_3f9370b1"
+        },
+        {
+            "type": "java",
+            "name": "CarMileage",
+            "request": "launch",
+            "mainClass": "CarMileage",
+            "projectName": "Data-Structure-Simple-Projects_3f9370b1"
+        },
+        {
+            "type": "java",
             "name": "SmallWonder",
             "request": "launch",
             "mainClass": "DBLinear.SmallWonder",

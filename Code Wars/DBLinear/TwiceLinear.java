@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class TwiceLinear {
-    
+
     public static void main(String[] args) {
         System.out.println(dblLinear(10));
     }
@@ -13,13 +13,14 @@ public class TwiceLinear {
         return 2 * x + 1;
     }
 
-    public static int g(int x){
+    public static int g(int x) {
         return 3 * x + 1;
     }
 
-    public static int dblLinear (int n) {
+    public static int dblLinear(int n) {
         n++;
-        if (n == 0) return 1;
+        if (n == 0)
+            return 1;
 
         PriorityQueue<Integer> queue = new PriorityQueue<>();
         HashSet<Integer> set = new HashSet<>();
@@ -39,10 +40,11 @@ public class TwiceLinear {
                 queue.add(z);
             }
 
-            if (n == 0) return x;
+            if (n == 0)
+                return x;
         }
 
         return 0;
-        
+
     }
 }
