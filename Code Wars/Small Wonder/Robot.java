@@ -1,38 +1,27 @@
-package DBLinear;
-
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
 public class Robot {
-    private Set<String> vocabulary;
 
-    public Robot() {
-        vocabulary = new HashSet<>();
+	public Set<String> wordBank = new HashSet<>(Arrays.asList("thank", "you", "for", "teaching", "me", "i", "already", "know", "the", "word", "do", "not", "understand", "input"));
 
-        learnWord("Thank");
-        learnWord("you");
-        learnWord("for");
-        learnWord("teaching");
-        learnWord("me");
-        learnWord("I");
-        learnWord("already");
-        learnWord("know");
-        learnWord("the");
-        learnWord("word");
-    }
+	public String learnWord(String word) {
 
-    public String learnWord(String word) {
-        if (!word.matches("^[a-zA-Z]+$")) {
+        // Check if word matches the regex [a-zA-Z]+ using regex pattern
+        if (word.matches("[a-zA-Z]+")) {
+
+            // Check if word is already in wordBank
+            if (wordBank.add(word.toLowerCase())) {
+                return "Thank you for teaching me " + word;
+            } else {
+                return "I already know the word " + word;
+            }
+        } else {
             return "I do not understand the input";
         }
 
-        word = word.toLowerCase();
-        if (vocabulary.contains(word)) {
-            return "I already know the word " + word;
-        } else {
-            vocabulary.add(word);
-            return "Thank you for teaching me " + word;
-        }
-    }
+
+		
+	}
 
 }

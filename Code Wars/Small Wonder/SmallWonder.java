@@ -1,4 +1,3 @@
-package DBLinear;
 
 import java.util.HashSet;
 import java.util.PriorityQueue;
