@@ -144,6 +144,20 @@ public class BST<E extends Comparable<E>> {
         print(curr.right, depth + 1, "R___");
     }
 
+    public void rotateRight(){
+        TreeNode<E> newRoot = root.left;
+        root.left = newRoot.right;
+        newRoot.right = root;
+        root = newRoot;
+    }
+
+    public void rotateLeft(){
+        TreeNode<E> newRoot = root.right;
+        root.right = newRoot.left;
+        newRoot.left = root;
+        root = newRoot;
+    }
+
     /********** END PRINT **********/
 
     class TreeNode<E extends Comparable<E>> {
