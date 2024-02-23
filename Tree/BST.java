@@ -8,6 +8,7 @@ public class BST<E extends Comparable<E>> {
         root = null;
     }
 
+    /* Add */
     public void add(E val) {
         if (root == null) {
             root = new TreeNode(val);
@@ -42,8 +43,10 @@ public class BST<E extends Comparable<E>> {
     // Size
     public int size() {
         return size;
-    }   
+    }
 
+    /* Traversals */
+    // Pre Order
     public String preOrder() {
         String result = preOrder(root);
         result = result.substring(0, result.length() - 2);
@@ -58,6 +61,7 @@ public class BST<E extends Comparable<E>> {
         return current.val + ", " + preOrder(current.left) + preOrder(current.right);
     }
 
+    // Post Order
     public String postOrder() {
         String result = postOrder(root);
         result = result.substring(0, result.length() - 2);
@@ -87,7 +91,7 @@ public class BST<E extends Comparable<E>> {
         return inOrder(current.left) + " " + current.val + ", " + inOrder(current.right);
     }
 
-    // Contains
+    /* Contains */
     public boolean contains(E val) {
         return containsRecursive(root, val);
     }
@@ -106,24 +110,25 @@ public class BST<E extends Comparable<E>> {
         }
     }
 
-    public void remove(E val){
+    /* Remove */
+    public void remove(E val) {
         root = remove(root, val);
         size--;
     }
 
-    private TreeNode<E> remove(TreeNode<E> current, E val){
-        if(current == null){
+    private TreeNode<E> remove(TreeNode<E> current, E val) {
+        if (current == null) {
             return null;
         }
         int compare = val.compareTo(current.val);
-        if(compare < 0){
+        if (compare < 0) {
             current.left = remove(current.left, val);
-        } else if(compare > 0){
+        } else if (compare > 0) {
             current.right = remove(current.right, val);
         } else {
-            if(current.left == null){
+            if (current.left == null) {
                 return current.right;
-            } else if(current.right == null){
+            } else if (current.right == null) {
                 return current.left;
             } else {
                 current.val = findMin(current.right);
@@ -133,11 +138,30 @@ public class BST<E extends Comparable<E>> {
         return current;
     }
 
-    private E findMin(TreeNode<E> current){
-        while(current.left != null){
+    private E findMin(TreeNode<E> current) {
+        while (current.left != null) {
             current = current.left;
         }
         return current.val;
+    }
+
+    /* Rotations */
+    public void rotateRight() {
+        if (root == null || root.left == null)
+            return;
+        TreeNode<E> newRoot = root.left;
+        root.left = newRoot.right;
+        newRoot.right = root;
+        root = newRoot;
+    }
+
+    public void rotateLeft() {
+        if (root == null || root.right == null)
+            return;
+        TreeNode<E> newRoot = root.right;
+        root.right = newRoot.left;
+        newRoot.left = root;
+        root = newRoot;
     }
 
     /********** PRINT **********/
@@ -159,28 +183,9 @@ public class BST<E extends Comparable<E>> {
             System.out.print(s);
             System.out.println(curr.val);
         }
-        print(curr.left, depth + 1, "L___"); 
+        print(curr.left, depth + 1, "L___");
         print(curr.right, depth + 1, "R___");
     }
-
-    public void rotateRight(){
-        if (root == null || root.left == null)
-            return;
-        TreeNode<E> newRoot = root.left;
-        root.left = newRoot.right;
-        newRoot.right = root;
-        root = newRoot;
-    }
-
-    public void rotateLeft(){
-        if (root == null || root.right == null)
-            return;
-        TreeNode<E> newRoot = root.right;
-        root.right = newRoot.left;
-        newRoot.left = root;
-        root = newRoot;
-    }
-
     /********** END PRINT **********/
 
     class TreeNode<E extends Comparable<E>> {
