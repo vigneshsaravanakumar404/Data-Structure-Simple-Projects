@@ -90,6 +90,7 @@ public class BST<E extends Comparable<E>> {
 
     public void remove(E val){
         root = remove(root, val);
+        size--;
     }
 
     private TreeNode<E> remove(TreeNode<E> current, E val){
@@ -145,6 +146,8 @@ public class BST<E extends Comparable<E>> {
     }
 
     public void rotateRight(){
+        if (root == null || root.left == null)
+            return;
         TreeNode<E> newRoot = root.left;
         root.left = newRoot.right;
         newRoot.right = root;
@@ -152,6 +155,8 @@ public class BST<E extends Comparable<E>> {
     }
 
     public void rotateLeft(){
+        if (root == null || root.right == null)
+            return;
         TreeNode<E> newRoot = root.right;
         root.right = newRoot.left;
         newRoot.left = root;
