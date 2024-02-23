@@ -44,14 +44,32 @@ public class BST<E extends Comparable<E>> {
         return size;
     }   
 
-    //TODO: Pre order
     public String preOrder() {
-        return "[" + "]";
+        String result = preOrder(root);
+        result = result.substring(0, result.length() - 2);
+        result = result.trim();
+        return "[" + result + "]";
     }
 
-    //TODO: Post order
+    private String preOrder(TreeNode<E> current) {
+        if (current == null) {
+            return "";
+        }
+        return current.val + ", " + preOrder(current.left) + preOrder(current.right);
+    }
+
     public String postOrder() {
-        return "[" + "]";
+        String result = postOrder(root);
+        result = result.substring(0, result.length() - 2);
+        result = result.trim();
+        return "[" + result + "]";
+    }
+
+    private String postOrder(TreeNode<E> current) {
+        if (current == null) {
+            return "";
+        }
+        return postOrder(current.left) + postOrder(current.right) + current.val + ", ";
     }
 
     // In Order
