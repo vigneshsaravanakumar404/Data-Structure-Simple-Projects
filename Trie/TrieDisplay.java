@@ -109,7 +109,7 @@ public class TrieDisplay extends JPanel implements KeyListener {
 
         int keyCode = e.getKeyCode();
 
-        if (keyCode == 8) {
+        if (keyCode == 8 && word.length() > 0) {
             word = word.substring(0, word.length() - 1);
         } else if (keyCode >= KeyEvent.VK_A && keyCode <= KeyEvent.VK_Z) {
             word += KeyEvent.getKeyText(keyCode);
@@ -117,8 +117,12 @@ public class TrieDisplay extends JPanel implements KeyListener {
             System.exit(0);
         }
 
-        likelyChar = trie.mostLikelyNextChar(word);
-        frequency = trie.likelyNextCharsFrequency(word);
+        if (word.length() > 0) {
+            likelyChar = trie.mostLikelyNextChar(word);
+            frequency = trie.likelyNextCharsFrequency(word);
+        } else {
+            frequency = null;
+        }
 
         repaint();
     }

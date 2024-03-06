@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "RBT",
+            "request": "launch",
+            "mainClass": "RBT",
+            "projectName": "Data-Structure-Simple-Projects_3f9370b1"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "Main",
