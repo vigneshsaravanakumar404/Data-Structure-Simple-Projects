@@ -37,7 +37,11 @@ public class TrieDisplay extends JPanel implements KeyListener {
         try {
             Scanner scanner = new Scanner(new File("words.txt"));
             while (scanner.hasNextLine()) {
-                trie.add(scanner.nextLine());
+                String word = scanner.nextLine().toUpperCase();
+                word = word.replaceAll("[^a-zA-Z0-9]", "");
+                if (word.length() > 0){
+                    trie.add(word);
+                }
             }
             scanner.close();
         } catch (FileNotFoundException e) {
