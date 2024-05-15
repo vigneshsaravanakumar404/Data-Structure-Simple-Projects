@@ -108,37 +108,27 @@ public class Graph {
         return createPath(visited, start, end);
     }
 
-    public String ShortestPath(String start, String end) {
+    public String BreadthFirstSearch(String start, String end) {
         Queue<String> queue = new LinkedList<String>();
         ArrayList<String> visited = new ArrayList<String>();
-        HashMap<String, String> path = new HashMap<String, String>();
 
+        
         queue.add(start);
-        visited.add(start);
-        path.put(start, null);
-
         while (!queue.isEmpty()) {
             String curr = queue.poll();
+            visited.add(curr);
             if (curr.equals(end)) {
                 break;
             }
             for (String n : g.get(curr)) {
                 if (!visited.contains(n)) {
                     queue.add(n);
-                    visited.add(n);
-                    path.put(n, curr);
                 }
             }
         }
 
-        String curr = end;
-        String out = "";
-        while (curr != null) {
-            out = curr + " -> " + out;
-            curr = path.get(curr);
-        }
+        return createPath(visited, start, end);
 
-        return out.substring(0, out.length() - 4);
     }
 
     public static void main(String[] args) {
@@ -168,7 +158,7 @@ public class Graph {
         System.out.println("Path from " + start + " to " + end + ": " + graph.dfs(start, end));
         System.out.println("Path from " + start + " to " + end + ": " + graph.dfsPathR(start, end));
         System.out.println("Path from " + start + " to " + end + ": " + graph.dfspathI(start, end));
-        System.out.println("Shortest Path from " + start + " to " + end + ": " + graph.ShortestPath(start, end));
+        System.out.println("Shortest Path from " + start + " to " + end + ": " + graph.BreadthFirstSearch(start, end));
     }
 
 }
