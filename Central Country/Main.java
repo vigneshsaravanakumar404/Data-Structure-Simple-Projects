@@ -1,3 +1,4 @@
+import java.util.PriorityQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.FileReader;
@@ -9,6 +10,8 @@ class Main {
     // Variables
     private static final String data = "GEODATASOURCE-COUNTRY-BORDERS.CSV";
     private static Set<Country> countries = new HashSet<Country>();
+    private static PriorityQueue<Country> rank = new PriorityQueue<Country>();
+    private static int TOP = 15;
 
     public static void main(String[] args) {
 
@@ -33,16 +36,17 @@ class Main {
         }
 
         // Add depth 1 borders
-        int depth = 1;
         try (BufferedReader br = new BufferedReader(new FileReader(data))) {
+
             String line;
+            int depth = 1;
+
             while ((line = br.readLine()) != null) {
 
                 String[] values = line.split(",");
-                if (values.length < 3) {
+                if (values.length < 4) {
                     continue;
                 }
-
                 String countryName = values[1];
                 String borderName = values[3];
 
@@ -61,11 +65,20 @@ class Main {
             e.printStackTrace();
         }
 
+        // Add other borders
         for (Country country : countries) {
-            country.calculateCentrality();
+            country.compute();
+            rank.add(country);
         }
 
-        // Print countries sorted by centrality
-        countries.stream().sorted((c1, c2) -> Double.compare(c2.Centrality, c1.Centrality)).forEach(System.out::println);
+        // Print top 15
+        System.out.println("C-Factor" + "\t\t\t" + "Country");
+        if (rank.size() < TOP) {
+            TOP = rank.size();
+        }
+        for (int i = 0; i < TOP; i++) {
+            Country country = rank.poll();
+            System.out.println(country);
+        }
     }
 }

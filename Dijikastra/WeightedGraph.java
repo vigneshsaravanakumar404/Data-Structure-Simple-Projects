@@ -38,7 +38,6 @@ public class WeightedGraph {
         return vertex;
     }
 
-    // getEdges
     public Set<Edge> getEdges() {
         Set<Edge> edges = new HashSet<>();
         for (HashSet<Edge> edgeSet : list.values()) {
@@ -76,6 +75,11 @@ public class WeightedGraph {
 
     // TODO: To be implemented
     public String findPath(Vertex v1, Vertex v2) {
-        return null;
+        return "";
+    }
+
+
+    // TODO:  To be implemented
+    public String findPath(Vertex v1, Vertex v2){
     }
 }
